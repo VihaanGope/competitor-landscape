@@ -1,0 +1,449 @@
+<!-- RESTORED FULL UI WITH ANIMATIONS - FIXED CSS ERROR -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Competitor Landscape</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+    background: radial-gradient(circle at top, #1e1e2f, #2e4d2f);
+    color: #ffffff;
+    overflow-x: hidden;
+  }
+  .stars {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+  }
+  .star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: floatStar linear infinite;
+  }
+  @keyframes floatStar {
+    0% { transform: translateY(0); opacity: 0.8; }
+    100% { transform: translateY(-100vh); opacity: 0; }
+  }
+  @keyframes orbitDrift {
+    0% { transform: translateY(-3px); }
+    100% { transform: translateY(3px); }
+  }
+  h1 {
+    text-align: center;
+    font-size: 3em;
+    margin: 30px 0;
+  }
+  .hub-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+    position: relative;
+  }
+  .element-energy img {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(255,255,255,0.4);
+  }
+  .satellite-container {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    height: 600px;
+    margin-top: 40px;
+  }
+  .satellite {
+    pointer-events: auto;
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    cursor: pointer;
+    opacity: 0;
+    transform: scale(0.2);
+    animation: launch 1s forwards ease-out, orbitDrift 8s ease-in-out infinite alternate;
+  }
+  .satellite img {
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+    border-radius: 50%;
+  }
+  .satellite::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    animation: glowShift 5s ease-in-out infinite;
+    box-shadow: 0 0 10px rgba(255,255,255,0.3);
+    z-index: -1;
+  }
+  .sat-label {
+    position: absolute;
+    width: 120px;
+    top: 130px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.9em;
+    color: white;
+  }
+  @keyframes launch {
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(0); }
+    25% { transform: rotate(2deg); }
+    75% { transform: rotate(-2deg); }
+  }
+  @keyframes glowShift {
+    0% { box-shadow: 0 0 5px rgba(255,255,255,0.2); }
+    50% { box-shadow: 0 0 20px rgba(255,255,255,0.5); }
+    100% { box-shadow: 0 0 5px rgba(255,255,255,0.2); }
+  }
+  a.satellite-inner {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s ease-out;
+  }
+
+  .satellite-inner img {
+    pointer-events: auto;
+  }
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.5s ease-out;
+  }
+</style>
+</head>
+<body>
+<div class="stars" id="stars"></div>
+<h1>Competitor Landscape: Element Energy's Ecosystem</h1>
+<div class="hub-container">
+  <div class="element-energy">
+    <img src="https://media.licdn.com/dms/image/v2/C560BAQFhaXMMvN2OBQ/company-logo_200_200/company-logo_200_200/0/1630665447756/element_energy_inc_logo?e=2147483647&v=beta&t=GIP1S4rgPaCxnTOLNM-BXcQ4ZxiG00NBvvDWlBExV1k" alt="Element Energy">
+  </div>
+  <div class="satellite-container" id="satellites"></div>
+</div>
+<script>
+const starsContainer = document.getElementById("stars");
+for (let i = 0; i < 100; i++) {
+  const star = document.createElement("div");
+  star.className = "star";
+  star.style.left = Math.random() * 100 + "vw";
+  star.style.top = Math.random() * 100 + "vh";
+  star.style.animationDuration = (Math.random() * 10 + 5) + "s";
+  star.style.animationDelay = Math.random() * 20 + "s";
+  starsContainer.appendChild(star);
+}
+
+const companies = [
+  { name: "Smartville", img: "https://media.licdn.com/dms/image/v2/D560BAQGRdjYfvjb43Q/company-logo_200_200/company-logo_200_200/0/1686855125977/smartville_inc_logo?e=2147483647&v=beta&t=Qp88bGJMhKcsYuvbKWF6_zPxyPW6Lxs4QlkXx2rlL0o" },
+  { name: "Relectrify", img: "https://media.licdn.com/dms/image/v2/D560BAQGHiQRfCfcJ8Q/company-logo_200_200/company-logo_200_200/0/1734486602535/relectrify_logo?e=1755734400&v=beta&t=XiJDbgcbiYNSC4G4gHZuq49HA5muzqeZteqdlph9_40" },
+  { name: "Moment Energy", img: "https://cdn.filepicker.io/api/file/iwbHhbuRi8t8COkLoLqQ" },
+  { name: "B2U", img: "https://images.squarespace-cdn.com/content/v1/60a83bf964aece2ab4bbec9d/1625597531774-1X7LKGLCXHBLAMO4MUJF/output-onlinejpgtools.png" },
+  { name: "Modual", img: "https://modual.ch/wp-content/uploads/2024/03/cropped-Modual-Logos-FULL_X-SPACE.webp" },
+  { name: "RePurpose", img: "https://asset.brandfetch.io/idmrYWVGJ7/idj107sWsF.jpeg?updated=1683355770937" },
+  { name: "Aceleron", img: "https://cdn.ecommercedns.uk/files/0/235660/2/21330392/277676754-383372200464821-8573425659834499196-n.jpg" }
+];
+
+const container = document.getElementById("satellites");
+const centerX = container.offsetWidth / 2;
+const centerY = container.offsetHeight / 2;
+const radius = 220;
+companies.forEach((company, i) => {
+  const angle = (i / companies.length) * 2 * Math.PI;
+  const x = centerX + radius * Math.cos(angle) - 60;
+  const y = centerY + radius * Math.sin(angle) - 60;
+  const el = document.createElement("div");
+  el.className = "satellite";
+  el.style.left = `${x}px`;
+  el.style.top = `${y}px`;
+  el.style.animationDelay = `${i * 0.2}s`;
+  el.innerHTML = `<a href="#" class='satellite-inner'><img src="${company.img}" alt="${company.name}"><div class='sat-label'>${company.name}</div></a>`;
+  container.appendChild(el);
+});
+
+
+let details = {
+  "Modual": `
+    <strong>Industry Segment:</strong> Home & Commercial Energy Storage Design<br>
+    <strong>Headquarters:</strong> Zurich, Switzerland<br>
+    <strong>Founded:</strong> 2022<br><br>
+    <strong>Funding:</strong> Undisclosed<br><br>
+    <strong>Core Products:</strong>
+    <ul>
+      <li>Fully integrated LFP modular battery storage systems</li>
+      <li>Energy monitoring and design tools for architects</li>
+    </ul>
+    <strong>Market Position:</strong> Stylish and technically advanced energy storage tailored to European design and architecture firms.<br><br>
+    <strong>Key Differentiators:</strong>
+    <ul>
+      <li>Design-focused product aesthetic</li>
+      <li>Targeting architects and designers</li>
+      <li>Swiss engineering standards and modular scalability</li>
+    </ul>
+    <strong>Strengths:</strong>
+    <ul>
+      <li>Appealing to premium design-conscious segments</li>
+      <li>New entrant with niche targeting</li>
+    </ul>
+    <strong>Areas of Concern:</strong>
+    <ul>
+      <li>Limited traction or visibility outside niche market</li>
+      <li>Unclear deployment volume or scale</li>
+    </ul>
+    <strong>Key Partners:</strong> N/A<br>
+    <strong>Founders:</strong> N/A<br>
+    <strong>Website:</strong> <a href="https://modual.ch" target="_blank" style="color:#8df">modual.ch</a>
+  `,
+  "B2U": `
+    <strong>Industry Segment:</strong> Second-Life EV Battery Repurposing for Grid Storage<br>
+    <strong>Headquarters:</strong> Lancaster, CA, USA<br>
+    <strong>Founded:</strong> 2019<br>
+    <strong>Funding:</strong> Undisclosed<br><br>
+    <strong>Core Products:</strong>
+    <ul>
+      <li>EV Pack-based utility-scale storage systems</li>
+      <li>Patented reuse & thermal management technologies</li>
+    </ul>
+    <strong>Market Position:</strong> Operational storage installations across California, including at Southern California Edison.<br><br>
+    <strong>Key Differentiators:</strong>
+    <ul>
+      <li>Direct EV pack reuse without disassembly</li>
+      <li>Energy arbitrage capabilities integrated</li>
+      <li>Proprietary monitoring platform</li>
+    </ul>
+    <strong>Strengths:</strong>
+    <ul>
+      <li>Utility-scale deployments</li>
+      <li>IP-protected thermal management</li>
+      <li>Hands-off reuse strategy for entire EV packs</li>
+    </ul>
+    <strong>Areas of Concern:</strong>
+    <ul>
+      <li>Relies on specific pack models for integration</li>
+      <li>Minimal consumer-facing brand presence</li>
+    </ul>
+    <strong>Key Partners:</strong> Southern California Edison, undisclosed EV manufacturers<br>
+    <strong>Founders:</strong> Freeman Hall<br>
+    <strong>Website:</strong> <a href="https://b2uco.com" target="_blank" style="color:#8df">b2uco.com</a>
+  `,
+  "RePurpose": `
+    <strong>Industry Segment:</strong> Battery Recycling and Upcycling Logistics<br>
+    <strong>Headquarters:</strong> Detroit, MI, USA<br>
+    <strong>Founded:</strong> 2021<br>
+    <strong>Funding:</strong> Undisclosed<br><br>
+    <strong>Core Products:</strong>
+    <ul>
+      <li>Logistics & analytics platform for used battery tracking</li>
+      <li>Preprocessing and recycling intelligence network</li>
+    </ul>
+    <strong>Market Position:</strong> Circular logistics infrastructure targeting OEMs and recyclers in North America.<br><br>
+    <strong>Key Differentiators:</strong>
+    <ul>
+      <li>Software-first logistics focus</li>
+      <li>Partner network with recyclers and reuse firms</li>
+      <li>Built-in traceability and compliance features</li>
+    </ul>
+    <strong>Strengths:</strong>
+    <ul>
+      <li>Lightweight B2B integration model</li>
+      <li>Data-rich visibility into end-of-life batteries</li>
+    </ul>
+    <strong>Areas of Concern:</strong>
+    <ul>
+      <li>Highly dependent on EV ecosystem data access</li>
+      <li>Emerging market still forming standard practices</li>
+    </ul>
+    <strong>Key Partners:</strong> Undisclosed battery recyclers and OEMs<br>
+    <strong>Founders:</strong> Kushal Chakrabarti<br>
+    <strong>Website:</strong> <a href="https://www.repurpose.energy" target="_blank" style="color:#8df">repurpose.energy</a>
+  `,
+  "Moment Energy": `
+    <strong>Industry Segment:</strong> Second-Life EV Battery Repurposing / Energy Storage Systems<br>
+    <strong>Headquarters:</strong> Vancouver, Canada<br>
+    <strong>Founded:</strong> 2020<br><br>
+    <strong>Core Products:</strong>
+    <ul>
+      <li>Renewable Battery Energy Storage Systems (BESS) from retired EV packs</li>
+      <li>Grid-tied and off-grid storage for commercial and industrial clients</li>
+    </ul>
+    <strong>Market Position:</strong> Supported by Sustainable Development Technology Canada and recognized for cleantech innovation.<br><br>
+    <strong>Key Differentiators:</strong>
+    <ul>
+      <li>Focus on remote and underserved communities</li>
+      <li>Direct relationships with major EV automakers for pack sourcing</li>
+      <li>Pre-configured turnkey energy solutions</li>
+    </ul>
+    <strong>Strengths:</strong>
+    <ul>
+      <li>Mission-driven founders with engineering expertise</li>
+      <li>Early traction with utilities and renewable developers</li>
+      <li>Clean and modular hardware design</li>
+    </ul>
+    <strong>Areas of Concern:</strong>
+    <ul>
+      <li>Limited brand awareness outside Canada</li>
+      <li>Still ramping up commercial deployments</li>
+      <li>Hardware-only focus may limit software integration opportunity</li>
+    </ul>
+    <strong>Key Partners:</strong> SDTC, NRC IRAP, EV manufacturers (undisclosed)<br>
+    <strong>Founders:</strong> Edward Chiang, Kevin Kung, Sumreen Rattan, Harjeet Johal<br>
+    <strong>Website:</strong> <a href="https://momentenergy.com" target="_blank" style="color:#8df">momentenergy.com</a>
+  `,
+  "Smartville": `
+    <strong>Industry Segment:</strong> Second‑Life EV Battery Repurposing / BESS<br>
+    <strong>Headquarters:</strong> Carlsbad, CA, USA<br>
+    <strong>Founded:</strong> 2019<br>
+    <strong>Funding:</strong> $26M+ in federal/state grants, including $10M from DOE for SMART LDES project<br><br>
+    <strong>Core Products:</strong>
+    <ul>
+      <li>Periscope (field battery diagnostic tool)</li>
+      <li>Mana Power (home energy interface)</li>
+      <li>Smartville 360 BESS (modular energy storage system)</li>
+    </ul>
+    <strong>Market Position:</strong> DOE-recognized innovator in battery reuse with 15+ MWh deployed across UCSD, Nissan, HBCUs, and more.<br><br>
+    <strong>Key Differentiators:</strong>
+    <ul>
+      <li>5‑minute in‑field diagnostics with Periscope</li>
+      <li>Battery Connect: data catalog + marketplace</li>
+      <li>Modular, containerized integration for wide deployment flexibility</li>
+    </ul>
+    <strong>Strengths:</strong>
+    <ul>
+      <li>Strong government grant traction and validation</li>
+      <li>Comprehensive tech stack from diagnostics to energy storage deployment</li>
+      <li>Focus on resilience and energy equity across underserved regions</li>
+    </ul>
+    <strong>Areas of Concern:</strong>
+    <ul>
+      <li>Early-stage commercial scaling</li>
+      <li>Dependency on third-party pack compatibility</li>
+      <li>Limited brand visibility compared to OEMs</li>
+    </ul>
+    <strong>Key Partners:</strong> DOE, Nissan, UCSD, HBCUs, EVerged, Cox Automotive<br>
+    <strong>Founders:</strong> Dr. Antoni Tong<br>
+    <strong>Website:</strong> <a href="https://smartville.io" target="_blank" style="color:#8df">smartville.io</a>
+  `,
+  "Relectrify": `
+    <strong>Industry Segment:</strong> Advanced Battery Control Tech<br>
+    <strong>Headquarters:</strong> Melbourne, Australia<br>
+    <strong>Founded:</strong> 2015<br>
+    <strong>Funding:</strong> $4M+ including from CEFC and private investors<br><br>
+    <strong>Core Products:</strong>
+    <ul>
+      <li>ReVolve® – Reuse battery packs with cell-level control</li>
+      <li>BMS+Inverter tech eliminates external inverter needs</li>
+    </ul>
+    <strong>Market Position:</strong> Partnered with Nissan, American Electric Power, and others for reuse solutions.<br><br>
+    <strong>Key Differentiators:</strong>
+    <ul>
+      <li>Cell-level battery reuse control system</li>
+      <li>High-voltage second-life integration</li>
+      <li>Integrated inverter saves cost and complexity</li>
+    </ul>
+    <strong>Strengths:</strong>
+    <ul>
+      <li>Breakthrough inverter+BMS solution</li>
+      <li>Compatible with a range of battery formats</li>
+      <li>Global pilot projects show strong proof-of-concept</li>
+    </ul>
+    <strong>Areas of Concern:</strong>
+    <ul>
+      <li>Technology complexity could slow integration</li>
+      <li>Requires partners comfortable with advanced control schemes</li>
+    </ul>
+    <strong>Key Partners:</strong> Nissan, AEP, CEFC, Enel X<br>
+    <strong>Founders:</strong> Valentin Muenzel (CEO)<br>
+    <strong>Website:</strong> <a href="https://relectrify.com" target="_blank" style="color:#8df">relectrify.com</a>
+  `,
+  "Aceleron": `
+    <strong>Industry Segment:</strong> Sustainable Battery Design / Circular Economy<br>
+    <strong>Headquarters:</strong> UK and Kenya<br>
+    <strong>Founded:</strong> 2016<br><br>
+    <strong>Core Products:</strong>
+    <ul>
+      <li>Essential™ battery – serviceable, upgradable lithium pack</li>
+      <li>Off-grid and EV battery reuse</li>
+    </ul>
+    <strong>Market Position:</strong> First circular economy lithium battery company with hardware that’s fully maintainable.<br><br>
+    <strong>Key Differentiators:</strong>
+    <ul>
+      <li>Patented compression-based assembly</li>
+      <li>No welding, easy disassembly</li>
+      <li>Global recognition for sustainability innovation</li>
+    </ul>
+    <strong>Strengths:</strong>
+    <ul>
+      <li>First mover in circular lithium battery manufacturing</li>
+      <li>Designed for reuse and repair from the ground up</li>
+      <li>Strong international partnerships and visibility</li>
+    </ul>
+    <strong>Areas of Concern:</strong>
+    <ul>
+      <li>Cost competitiveness vs. welded pack mass manufacturers</li>
+      <li>Scaling production while maintaining modularity</li>
+      <li>Requires education in markets unfamiliar with repairable batteries</li>
+    </ul>
+    <strong>Key Partners:</strong> Shell Foundation, Enviu, EEP Africa, UNEP<br>
+    <strong>Founders:</strong> Dr. Amrit Chandan, Carlton Cummins<br>
+    <strong>Website:</strong> <a href="https://aceleronenergy.com" target="_blank" style="color:#8df">aceleronenergy.com</a>
+  `
+};
+
+companies.forEach((company, i) => {
+  const el = container.children[i];
+  const link = el.querySelector('a');
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const popup = document.getElementById('popup');
+    const content = document.getElementById('popup-content');
+    let html = `<h2 style='margin-top:0;'>${company.name}</h2>`;
+    html += details[company.name] || `<p><em>More details coming soon for ${company.name}...</em></p>`;
+    content.innerHTML = html;
+    popup.style.display = 'block';
+  });
+});
+
+</script>
+<div id="popup" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:#1e1e2f; color:white; padding:30px; border-radius:20px; z-index:9999; max-width:90vw; max-height:80vh; overflow:auto; box-shadow:0 0 20px rgba(255,255,255,0.4);">
+  <button onclick="document.getElementById('popup').style.display='none'" style="position:absolute; top:10px; right:15px; background:none; border:none; color:white; font-size:1.2em; cursor:pointer;">✖</button>
+  <div id="popup-content"></div>
+</div>
+</body>
+</html>
